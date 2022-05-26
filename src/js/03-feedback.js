@@ -1,24 +1,31 @@
-const form = document.querySelector(".feedback-form");
-const input = document.querySelector("input");
-const textarea = document.querySelector("textarea");
-const button = document.querySelector("button");
+const form = document.querySelector('.feedback-form');
+const input = document.querySelector('input');
+const textarea = document.querySelector('textarea');
+const button = document.querySelector('button');
 
 form.addEventListener('submit', onFormSubmit);
-textarea.addEventListener('input',onTextInputArea)
+form.addEventListener('input', onTextInputArea);
+textarea.addEventListener('input', onTextInputArea);
 input.addEventListener('input', onTextInputArea);
-console.log(form.email)
-console.log(form.message)
 
-// console.log(form.elements.message.value)
-
-
+const formData = {};
 
 function onFormSubmit(event) {
-    event.preventDefault();
+  event.preventDefault();
+  event.currentTarget.reset();
+  localStorage.removeItem('feedback-form-state');
 }
 
 function onTextInputArea(event) {
-const email =event.target.value
-console.log(event.target.value)
-    localStorage.setItem("feedback-form-state", email)
+  formData[event.target.name] = event.target.value;
+  localStorage.setItem('feedback-form-state', JSON.stringify(formData));
+}
+
+onExistTextarea();
+function onExistTextarea() {
+  const parsedSettings = JSON.parse(localStorage.getItem('feedback-form-state'));
+  if (parsedSettings) {
+    input.value = parsedSettings.email;
+    textarea.value = parsedSettings.message;
+  }
 }
