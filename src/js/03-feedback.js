@@ -20,9 +20,13 @@ function onFormSubmit(event) {
   } else {
     console.log(formData);
     event.currentTarget.reset();
-    localStorage.removeItem('KEY_LOCALSTORAGE');
+      localStorage.removeItem('KEY_LOCALSTORAGE');
+      formData[input.name] = '';
+    formData[textarea.name] = '';
   }
 }
+
+
 function onTextInputArea(event) {
   formData[event.target.name] = event.target.value;
   localStorage.setItem('KEY_LOCALSTORAGE', JSON.stringify(formData));
